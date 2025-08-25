@@ -1,7 +1,9 @@
 import { WebSocketServer } from "ws";
+import dotenv from "dotenv";
 
+dotenv.config();
 const server = new WebSocketServer({
-  port: 8000,
+  port: `${process.env.APP_PORT}`,
 });
 
 server.on("connection", (ws) => {
@@ -16,4 +18,4 @@ server.on("connection", (ws) => {
   ws.send("welcome");
 });
 
-console.log("server running on port 8000");
+console.log("server running on port: " + process.env.APP_PORT);

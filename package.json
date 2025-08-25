@@ -1,0 +1,16 @@
+{
+  "type": "module",
+  "dependencies": {
+    "websocket": "^1.0.35",
+    "ws": "^8.18.3"
+  },
+  "name": "chat_websocket",
+  "version": "1.0.0",
+  "description": "This repo contains a simple chat websocket setup,for single user communications only.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

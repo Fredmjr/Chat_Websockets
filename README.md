@@ -6,4 +6,4 @@ CURRENT FEATURES:
 - Two user end to chat and encyption.
 - CRUD user and messages.
 
-NOTE: More features to be added soon, like groups. so at the momet it will do:
+NOTE: More features to be added soon, like groups. repo also uses esbuild as a client file compressor.

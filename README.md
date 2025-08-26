@@ -6,4 +6,4 @@ CURRENT FEATURES:
 - Two user end to chat and encyption.
 - CRUD user and messages.
 
-NOTE: More features to be added soon, like groups. repo also uses esbuild as a client file compressor (buildapp in package.json does the script building & nodemon).
+NOTE: More features to be added soon, like groups. repo also uses esbuild as a client file compressor (buildapp in package.json does the script building & nodemon). Exculte for application to start running: npm run buildapp

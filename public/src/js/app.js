@@ -47,21 +47,47 @@ Home.addEventListener("click", function (event) {
     const emailInput = document.querySelector(".emailInput").value;
     const passwordInput = document.querySelector(".passwordInput").value;
     const erPlank = document.querySelector(".erPlank");
-    console.log("Logins: " + usernameInput, emailInput, passwordInput);
 
     //Logins validfications
+    const data = {
+      username: usernameInput,
+      email: emailInput,
+      password: passwordInput,
+    };
+    console.log(data);
+
     fetch("/user/verification", {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         // 'Authorization': 'Bearer YOUR_TOKEN',
       },
+      body: JSON.stringify(data),
     })
-      .then((response) => response.text())
+      .then((response) => response.json())
       .then((data) => {
-        erPlank.innerHTML = data;
-        erPlank.style.display = "block";
-        /* Home.innerHTML = data; */
+        if (data.erMgs) {
+          erPlank.innerHTML = data.erMgs;
+          erPlank.style.display = "block";
+          setTimeout(() => {
+            erPlank.style.display = "none";
+          }, 3000);
+        } else if (data.paswdMgs) {
+          erPlank.innerHTML = data.paswdMgs;
+          erPlank.style.display = "block";
+          setTimeout(() => {
+            erPlank.style.display = "none";
+          }, 6000);
+        } else if (data.redirMgs === true) {
+          console.log("page redirect");
+        } else {
+          erPlank.innerHTML = "Failed, Please reload the page and try again!";
+          erPlank.style.display = "block";
+          setTimeout(() => {
+            erPlank.style.display = "none";
+          }, 3000);
+          console.log("correct p");
+        }
       })
       .catch((error) => console.log(error));
   }

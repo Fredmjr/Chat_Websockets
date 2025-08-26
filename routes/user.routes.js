@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post("/signup", signupUrl);
 router.get("/login", loginUrl);
-router.get("/verification", valUrl);
+router.post("/verification", valUrl);
 
 export default router;

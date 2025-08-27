@@ -1,0 +1,2 @@
+var u=Object.defineProperty;var t=(e,o)=>u(e,"name",{value:o,configurable:!0});(cookieFuc=t(()=>{getCookie=t(o=>{let i=document.cookie.split("; ");for(let l=0;l<i.length;l++){let n=i[l],[c,r]=n.split("=");if(c===o)return decodeURIComponent(r)}return null},"getCookie"),getCookie("usr");let e=getCookie("usr");console.log(e),console.log("cookie here")},"cookieFuc"))();
+//# sourceMappingURL=cookie.js.map

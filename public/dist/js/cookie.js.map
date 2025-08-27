@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/js/cookie.js"],
+  "sourcesContent": ["//Auto read cookie function\r\n(cookieFuc = () => {\r\n  getCookie = (cookieName) => {\r\n    let cookies = document.cookie.split(\"; \");\r\n    for (let i = 0; i < cookies.length; i++) {\r\n      let cookie = cookies[i];\r\n      let [name, value] = cookie.split(\"=\");\r\n      if (name === cookieName) {\r\n        return decodeURIComponent(value);\r\n      }\r\n    }\r\n    return null;\r\n  };\r\n  getCookie(\"usr\");\r\n  let username = getCookie(\"usr\");\r\n  console.log(username);\r\n  console.log(\"cookie here\");\r\n})();\r\n"],
+  "mappings": "gFACC,UAAYA,EAAA,IAAM,CACjB,UAAYA,EAACC,GAAe,CAC1B,IAAIC,EAAU,SAAS,OAAO,MAAM,IAAI,EACxC,QAASC,EAAI,EAAGA,EAAID,EAAQ,OAAQC,IAAK,CACvC,IAAIC,EAASF,EAAQC,CAAC,EAClB,CAACE,EAAMC,CAAK,EAAIF,EAAO,MAAM,GAAG,EACpC,GAAIC,IAASJ,EACX,OAAO,mBAAmBK,CAAK,CAEnC,CACA,OAAO,IACT,EAVY,aAWZ,UAAU,KAAK,EACf,IAAIC,EAAW,UAAU,KAAK,EAC9B,QAAQ,IAAIA,CAAQ,EACpB,QAAQ,IAAI,aAAa,CAC3B,EAhBa,cAgBV",
+  "names": ["__name", "cookieName", "cookies", "i", "cookie", "name", "value", "username"]
+}

@@ -155,6 +155,7 @@ Home.addEventListener("click", function (event) {
           }, 6000);
         } else if (data.crtAccount === true) {
           console.log(data.usr, data.usrP + "herererer");
+          document.cookie = `usr=${data.usr}` + ";path=/";
           /*           document.cookie = "usr=data.usr" + ";path=/";
 
           getCookie=(cookieName)=>{

@@ -11,8 +11,28 @@
     }
     return null;
   };
-  getCookie("usr");
-  let username = getCookie("usr");
-  console.log(username);
-  console.log("cookie here");
+  let usrn = getCookie("usr");
+  let usrprt = getCookie("usrP");
+  console.log("cookie name:" + usrn + "cookie port: " + usrprt);
+
+  //send cookie to get token from server in here
+  const data = {
+    ctoken: usrn,
+  };
+  console.log(data);
+  fetch("/user/ctoken", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      // 'Authorization': 'Bearer YOUR_TOKEN',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.dtoken === true) {
+        console.log(data);
+      }
+    })
+    .catch((error) => console.log(error));
 })();

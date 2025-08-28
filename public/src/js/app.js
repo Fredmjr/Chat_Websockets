@@ -29,7 +29,10 @@ loginBtn.addEventListener("click", () => {
   })
     .then((response) => response.text())
     .then((data) => {
-      Home.innerHTML = data;
+      if (data) {
+        Home.innerHTML = data;
+        console.log(data + "hererererererererer");
+      }
     })
     .catch((error) => console.log(error));
 });
@@ -156,6 +159,7 @@ Home.addEventListener("click", function (event) {
         } else if (data.crtAccount === true) {
           console.log(data.usr, data.usrP + "herererer");
           document.cookie = `usr=${data.usr}` + ";path=/";
+          document.cookie = `usrP=${data.usrP}` + ";path=/";
           /*           document.cookie = "usr=data.usr" + ";path=/";
 
           getCookie=(cookieName)=>{

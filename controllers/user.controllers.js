@@ -119,6 +119,30 @@ export const valUrl = async (req, res) => {
   }
 };
 
+//Decoded cookie
+export const ctokenUrl = async (req, res) => {
+  const { ctoken } = req.body;
+  try {
+    if (ctoken) {
+      //decode token from cookie & send back decode details
+      res.json({
+        dtoken: true,
+        username: ctoken,
+      });
+      console.log(ctoken);
+    } else {
+      res.json({
+        erMgs: "Failed to load user account, Please login or reload page!",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({
+      erMgs: "Server failed to load user account, Please login or reload page!",
+    });
+  }
+};
+
 //All rerouting controllers involved by res.json({}) method!!!!
 //simplicity and readbility is key
 //LOGIN PAGE

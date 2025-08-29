@@ -4,6 +4,7 @@ const loginBtn = document.querySelector(".loginBtn");
 const subloginBtn = document.querySelector(".subloginBtn");
 const subsignupBtn = document.querySelector(".subsignupBtn");
 const Home = document.querySelector(".Home");
+const srchErmgs = document.querySelector(".srchErmgs");
 
 const socket = new WebSocket("ws://localhost:8000");
 socket.addEventListener("open", () => {
@@ -19,22 +20,23 @@ function sendmgs() {
   socket.send(inputID.value);
 }
 
-loginBtn.addEventListener("click", () => {
-  fetch("/user/login", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      // 'Authorization': 'Bearer YOUR_TOKEN',
-    },
-  })
-    .then((response) => response.text())
-    .then((data) => {
-      if (data) {
-        Home.innerHTML = data;
-        console.log(data + "hererererererererer");
-      }
+Home.addEventListener("click", function (event) {
+  if (event.target.matches(".loginBtn")) {
+    fetch("/user/login", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        // 'Authorization': 'Bearer YOUR_TOKEN',
+      },
     })
-    .catch((error) => console.log(error));
+      .then((response) => response.text())
+      .then((data) => {
+        if (data) {
+          Home.innerHTML = data;
+        }
+      })
+      .catch((error) => console.log(error));
+  }
 });
 
 //Login
@@ -183,5 +185,37 @@ Home.addEventListener("click", function (event) {
         }
       })
       .catch((error) => console.log(error));
+  }
+});
+
+//search user
+Home.addEventListener("click", function (event) {
+  if (event.target.matches(".fndactBtn")) {
+    const fndactInput = document.querySelector(".fndactInput");
+    let fndVal = fndactInput.value;
+    console.log(fndVal);
+    if (fndVal === "") {
+      srchErmgs.textContent = "search field is empty!";
+      //styes block below has issues with esbuild
+      /* srchErmgs.style.display = "block"; */
+      setTimeout(() => {
+        srchErmgs.style.display = "none";
+      }, 2000);
+    } else if (fndVal !== "") {
+      fetch("/user/qryusr", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // 'Authorization': 'Bearer YOUR_TOKEN',
+        },
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          if (data) {
+            Home.innerHTML = data;
+          }
+        })
+        .catch((error) => console.log(error));
+    }
   }
 });

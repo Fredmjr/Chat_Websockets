@@ -32,6 +32,9 @@
     .then((data) => {
       if (data.dtoken === true) {
         console.log(data);
+
+        const profIcon = document.querySelector(".profIcon");
+        profIcon.textContent = data.username;
       }
     })
     .catch((error) => console.log(error));

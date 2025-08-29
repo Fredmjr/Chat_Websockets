@@ -154,3 +154,8 @@ export const loginUrl = async (req, res) => {
 export const signupgUrl = async (req, res) => {
   res.render("components/signup");
 };
+
+//search account or user
+export const qryusrUrl = async (req, res) => {
+  res.render("components/search");
+};

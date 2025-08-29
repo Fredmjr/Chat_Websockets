@@ -6,6 +6,7 @@ import {
   valUrl,
   signupgUrl,
   ctokenUrl,
+  qryusrUrl,
 } from "../controllers/user.controllers.js";
 
 const router = express.Router();
@@ -16,5 +17,5 @@ router.get("/login", loginUrl);
 router.post("/registration", registrationUrl);
 router.post("/verificaftion", valUrl);
 router.post("/ctoken", ctokenUrl);
-
+router.post("/qryusr", qryusrUrl);
 export default router;

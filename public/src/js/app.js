@@ -5,6 +5,7 @@ const subloginBtn = document.querySelector(".subloginBtn");
 const subsignupBtn = document.querySelector(".subsignupBtn");
 const Home = document.querySelector(".Home");
 const srchErmgs = document.querySelector(".srchErmgs");
+const srchpgBtn = document.querySelector(".srchpgBtn");
 
 const socket = new WebSocket("ws://localhost:8000");
 socket.addEventListener("open", () => {
@@ -192,22 +193,58 @@ Home.addEventListener("click", function (event) {
 Home.addEventListener("click", function (event) {
   if (event.target.matches(".fndactBtn")) {
     const fndactInput = document.querySelector(".fndactInput");
+    const usrPnl = document.querySelector(".usrPnl");
+    let fndVal = fndactInput.value;
+    const data = {
+      srchVal: fndVal,
+    };
+    console.log("data");
+
+    fetch("/user/qryusr", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // 'Authorization': 'Bearer YOUR_TOKEN',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        /* if (data) {
+          srchErmgs.textContent = data.erMgs;
+        } */
+        usrPnl.innerHTML = data;
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
+  }
+});
+
+/* Home.addEventListener("click", function (event) {
+  if (event.target.matches(".fndactBtn")) {
+    const fndactInput = document.querySelector(".fndactInput");
     let fndVal = fndactInput.value;
     console.log(fndVal);
     if (fndVal === "") {
-      srchErmgs.textContent = "search field is empty!";
-      //styes block below has issues with esbuild
-      /* srchErmgs.style.display = "block"; */
-      setTimeout(() => {
+      srchErmgs.textContent = ""; */
+//styes block below has issues with esbuild
+/* srchErmgs.style.display = "block"; */
+/*       setTimeout(() => {
         srchErmgs.style.display = "none";
       }, 2000);
     } else if (fndVal !== "") {
+       const data = {
+         srchVal: fndVal,
+       };
+      
+
       fetch("/user/qryusr", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           // 'Authorization': 'Bearer YOUR_TOKEN',
         },
+        body: JSON.stringify(data),
       })
         .then((response) => response.text())
         .then((data) => {
@@ -217,5 +254,22 @@ Home.addEventListener("click", function (event) {
         })
         .catch((error) => console.log(error));
     }
+  }
+}); */
+
+Home.addEventListener("click", function (event) {
+  if (event.target.matches(".srchpgBtn")) {
+    fetch("/user/qrysrchpg", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        // 'Authorization': 'Bearer YOUR_TOKEN',
+      },
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        Home.innerHTML = data;
+      })
+      .catch((error) => console.log(error));
   }
 });

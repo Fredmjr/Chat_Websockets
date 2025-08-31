@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import userModel from "../models/user.model.js";
 import express from "express";
 
@@ -157,5 +158,59 @@ export const signupgUrl = async (req, res) => {
 
 //search account or user
 export const qryusrUrl = async (req, res) => {
+  const { srchVal } = req.body;
+  try {
+    if (srchVal !== "") {
+      const usrs = await userModel.findAll({
+        where: {
+          username: {
+            [Op.startsWith]: `%${srchVal}`,
+          },
+        },
+      });
+
+      if (usrs) {
+        res.send(usrs.username);
+      } else if (!usrs) {
+        res.send("No user found!");
+      }
+    } else if (srchVal === "") {
+      res.send("empty field");
+    }
+  } catch (error) {
+    console.log(error);
+    res.send(
+      "Server failed to validate your search!, Please login or reload page!"
+    );
+  }
+};
+
+export const srchpgUrl = async (req, res) => {
   res.render("components/search");
 };
+
+/* export const qryusrUrl = async (req, res) => {
+  const { srchVal } = req.body;
+  console.log(srchVal);
+  try {
+    if (srchVal === "") {
+      res.json({
+        erMgs: "Search field is empty!",
+      });
+    } else if (srchVal !== "") {
+      res.render("components/search");
+    } else {
+      res.json({
+        erMgsEls:
+          "Failed to validate your search, Please login or reload page!",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({
+      erMgsSrvr:
+        "Server failed to validate your search!, Please login or reload page!",
+    });
+  }
+};
+ */

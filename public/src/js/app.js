@@ -1,3 +1,5 @@
+import { connection } from "websocket";
+
 const inputID = document.querySelector("#inputID");
 const logId = document.querySelector("#logId");
 const loginBtn = document.querySelector(".loginBtn");
@@ -208,15 +210,36 @@ Home.addEventListener("click", function (event) {
       },
       body: JSON.stringify(data),
     })
-      .then((response) => response.text())
+      .then((response) => response.json())
       .then((data) => {
-        /* if (data) {
-          srchErmgs.textContent = data.erMgs;
-        } */
-        usrPnl.innerHTML = data;
         console.log(data);
+        if (data.usrname) {
+          console.log(data.usrname + data.usrprt);
+          usrPnl.innerHTML = "";
+          data.usrname.forEach((username) => {
+            const p = document.createElement("p");
+            p.textContent = username;
+            p.classList.add("usrcl");
+            usrPnl.appendChild(p);
+          });
+        }
+        if (data.erMgs) {
+          console.log(data.erMgs);
+          /*  usrPnl.innerHTML = data; */
+        }
       })
       .catch((error) => console.log(error));
+  }
+});
+
+//Selected user to user chat sheet
+/* const usrcl = document.querySelector(".usrcl");
+usrcl.forEach((button) => {
+  
+}); */
+Home.addEventListener("click", function (event) {
+  if (event.target.matches(".usrcl")) {
+    console.log(data.usrname);
   }
 });
 

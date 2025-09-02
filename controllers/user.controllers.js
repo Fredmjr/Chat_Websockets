@@ -168,11 +168,18 @@ export const qryusrUrl = async (req, res) => {
           },
         },
       });
-
+      const usrnms = usrs.map((user) => user.dataValues.username);
+      const usrprts = usrs.map((user) => user.dataValues.userport);
       if (usrs) {
-        res.send(usrs.username);
-      } else if (!usrs) {
-        res.send("No user found!");
+        res.json({
+          usrname: usrnms,
+          usrprt: usrprts,
+        });
+        console.log(usrnms);
+      } else {
+        res.json({
+          erMgs: "No user found!",
+        });
       }
     } else if (srchVal === "") {
       res.send("empty field");

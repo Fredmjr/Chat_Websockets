@@ -168,18 +168,16 @@ export const qryusrUrl = async (req, res) => {
           },
         },
       });
-      const usrnms = usrs.map((user) => user.dataValues.username);
-      const usrprts = usrs.map((user) => user.dataValues.userport);
+
       if (usrs) {
-        res.json({
-          usrname: usrnms,
-          usrprt: usrprts,
+        const users = usrs.map((user) => {
+          return {
+            username: user.dataValues?.username,
+            userport: user.dataValues?.userport,
+          };
         });
-        console.log(usrnms);
-      } else {
-        res.json({
-          erMgs: "No user found!",
-        });
+        console.log(users);
+        return res.send(users);
       }
     } else if (srchVal === "") {
       res.send("empty field");
@@ -194,6 +192,48 @@ export const qryusrUrl = async (req, res) => {
 
 export const srchpgUrl = async (req, res) => {
   res.render("components/search");
+};
+
+//Query user for chat page
+export const qrysrchusrUrl = async (req, res) => {
+  const port = req.params.userport;
+  try {
+    if (port) {
+      const usr = await userModel.findOne({
+        where: {
+          userport: port,
+        },
+      });
+
+      if (usr) {
+        res.json({
+          acunt: true,
+          nm: usr.username,
+          eml: usr.email,
+        });
+        console.log(usr.username + usr.email);
+      }
+    } else {
+      res.send("Unable to connect with user!");
+    }
+  } catch (error) {
+    console.log(error);
+    res.send(
+      "Server failed to validate your search!, Please login or reload page!"
+    );
+  }
+};
+
+//Chat page
+export const srchusrchtUrl = async (req, res) => {
+  try {
+    res.render("components/chatpage");
+  } catch (error) {
+    console.log(error);
+    res.send(
+      "Server failed to validate your search!, Please login or reload page!"
+    );
+  }
 };
 
 /* export const qryusrUrl = async (req, res) => {

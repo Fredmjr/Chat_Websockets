@@ -8,6 +8,7 @@ const subsignupBtn = document.querySelector(".subsignupBtn");
 const Home = document.querySelector(".Home");
 const srchErmgs = document.querySelector(".srchErmgs");
 const srchpgBtn = document.querySelector(".srchpgBtn");
+const usrcl = document.querySelector(".usrcl");
 
 const socket = new WebSocket("ws://localhost:8000");
 socket.addEventListener("open", () => {
@@ -213,35 +214,94 @@ Home.addEventListener("click", function (event) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.usrname) {
-          console.log(data.usrname + data.usrprt);
-          usrPnl.innerHTML = "";
-          data.usrname.forEach((username) => {
-            const p = document.createElement("p");
-            p.textContent = username;
-            p.classList.add("usrcl");
-            usrPnl.appendChild(p);
-          });
-        }
-        if (data.erMgs) {
-          console.log(data.erMgs);
-          /*  usrPnl.innerHTML = data; */
+        usrPnl.innerHTML = "";
+        data.forEach((user) => {
+          const p = document.createElement("div");
+          p.innerHTML = `
+            <p class="usrcl"  data-prt="${user.userport}">${user.username}</p> 
+            `;
+
+          const pCnt = p;
+          usrPnl.appendChild(pCnt);
+        });
+      })
+      .catch((error) => console.log(error));
+  }
+});
+
+//query user using dataset data-port
+Home.addEventListener("click", function (event) {
+  if (event.target.matches(".usrcl")) {
+    const targtdusrcl = event.target;
+    console.log("hello" + " dataset:" + targtdusrcl.dataset.prt);
+    fetch(`/user/qrysrchusr/${targtdusrcl.dataset.prt}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        // 'Authorization': 'Bearer YOUR_TOKEN',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.acunt === true) {
+          const usrnm = data.nm;
+
+          fetch("/user/srchusrcht", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              // 'Authorization': 'Bearer YOUR_TOKEN',
+            },
+          })
+            .then((response) => response.text())
+            .then((data) => {
+              Home.innerHTML = data;
+              const nmcl = document.querySelector(".nmcl");
+              nmcl.innerHTML = usrnm;
+            })
+            .catch((error) => console.log(error));
         }
       })
       .catch((error) => console.log(error));
   }
 });
 
-//Selected user to user chat sheet
-/* const usrcl = document.querySelector(".usrcl");
-usrcl.forEach((button) => {
-  
-}); */
-Home.addEventListener("click", function (event) {
-  if (event.target.matches(".usrcl")) {
-    console.log(data.usrname);
-  }
+//Dynamically selected elements
+//1. Sending message
+
+const obsrvr = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    mutation.addedNodes.forEach((node) => {
+      const nodeinptcl = node.matches?.(".inptcl")
+        ? node
+        : node.querySelector?.(".inptcl");
+
+      if (nodeinptcl) {
+        console.log("hi input added");
+
+        Home.addEventListener("click", function (event) {
+          if (event.target.matches(".chtsbmtBtn")) {
+            const nodeinptclVal = nodeinptcl.value;
+            console.log(nodeinptclVal);
+            //observer for message input field!
+          }
+        });
+      }
+    });
+  });
 });
+
+obsrvr.observe(Home, { childList: true, subtree: true });
+
+/* Home.addEventListener("click", function (event) {
+  if (event.target.matches(".usrcl")) {
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        console.log("helo");
+      });
+    });
+  }
+}); */
 
 /* Home.addEventListener("click", function (event) {
   if (event.target.matches(".fndactBtn")) {

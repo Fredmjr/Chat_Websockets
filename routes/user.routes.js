@@ -10,6 +10,8 @@ import {
   srchpgUrl,
   qrysrchusrUrl,
   srchusrchtUrl,
+  mgsprtUrl,
+  autlgUrl,
 } from "../controllers/user.controllers.js";
 
 const router = express.Router();
@@ -24,5 +26,6 @@ router.post("/qryusr", qryusrUrl);
 router.get("/qrysrchpg", srchpgUrl);
 router.get("/qrysrchusr/:userport", qrysrchusrUrl);
 router.get("/srchusrcht", srchusrchtUrl);
-
+router.post("/mgsprt", mgsprtUrl);
+router.post("/autlg", autlgUrl);
 export default router;

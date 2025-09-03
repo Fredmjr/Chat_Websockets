@@ -1,0 +1,2 @@
+var a=Object.defineProperty;var l=(o,t)=>a(o,"name",{value:t,configurable:!0});(autolg=l(()=>{console.log("auto loging"),autockie=l(e=>{let c=document.cookie.split("; ");for(let n=0;n<c.length;n++){let i=c[n],[u,s]=i.split("=");if(u===e)return decodeURIComponent(s)}return null},"autockie");let o=autockie("usr"),t={ckie:o};console.log(o),fetch("/user/autlg",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(t)}).then(e=>e.text()).then(e=>{document.body.innerHTML=e}).catch(e=>console.log(e))},"autolg"))();
+//# sourceMappingURL=login.js.map

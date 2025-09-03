@@ -2,6 +2,19 @@ import { Op } from "sequelize";
 import userModel from "../models/user.model.js";
 import express from "express";
 
+//Auto login
+export const autlgUrl = async (req, res) => {
+  const { ckie } = req.body;
+  try {
+    if (ckie === null || !ckie) {
+      res.render("components/login");
+    }
+  } catch (error) {
+    console.log(error);
+    console.log("Auto login failed error!");
+  }
+};
+
 //user registration
 export const signupUrl = async (req, res) => {
   const { username, email, password } = req.body;
@@ -233,6 +246,34 @@ export const srchusrchtUrl = async (req, res) => {
     res.send(
       "Server failed to validate your search!, Please login or reload page!"
     );
+  }
+};
+
+//
+export const mgsprtUrl = async (req, res) => {
+  const { chtprt, chtmgs } = req.body;
+  try {
+    if ((chtprt, chtmgs)) {
+      //add code to write user port and user message to db here!!!!!!!!!
+      //write to db userport & usermgs
+      //write to db userport & usermgs
+      //write to db userport & usermgs
+      //write to db userport & usermgs
+      //write to db userport & usermgs
+      //write to db userport & usermgs
+      //write to db userport & usermgs
+      //write to db userport & usermgs
+      //write to db userport & usermgs
+      //write to db userport & usermgs
+      //write to db userport & usermgs
+      //write to db userport & usermgs
+      res.send(`wrote to db usrprt: ${chtprt} & usrmgs: ${chtmgs}`);
+    } else if (!chtmgs) {
+      res.send("message is empt!");
+    }
+  } catch (error) {
+    console.log(error);
+    res.send("Unable to send message!, Please login or reload page!");
   }
 };
 

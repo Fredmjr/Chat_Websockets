@@ -258,6 +258,7 @@ Home.addEventListener("click", function (event) {
               Home.innerHTML = data;
               const nmcl = document.querySelector(".nmcl");
               nmcl.innerHTML = usrnm;
+              nmcl.dataset.prt = targtdusrcl.dataset.prt;
             })
             .catch((error) => console.log(error));
         }
@@ -267,23 +268,44 @@ Home.addEventListener("click", function (event) {
 });
 
 //Dynamically selected elements
-//1. Sending message
-
+//1. Sending message & writing to the db, that only!
+//Obbserver for message input field & dataset port for selected user!
 const obsrvr = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     mutation.addedNodes.forEach((node) => {
+      //for value of input element
       const nodeinptcl = node.matches?.(".inptcl")
         ? node
         : node.querySelector?.(".inptcl");
+      //for dataset span element
+      const nodenmcl = node.matches?.(".nmcl")
+        ? node
+        : node.querySelector?.(".nmcl");
 
       if (nodeinptcl) {
-        console.log("hi input added");
-
         Home.addEventListener("click", function (event) {
           if (event.target.matches(".chtsbmtBtn")) {
-            const nodeinptclVal = nodeinptcl.value;
-            console.log(nodeinptclVal);
-            //observer for message input field!
+            console.log("dataset for nmcl: " + nodenmcl.dataset.prt);
+            console.log("message value for inptcl: " + nodeinptcl.value);
+            const data = {
+              chtprt: nodenmcl.dataset.prt,
+              chtmgs: nodeinptcl.value,
+            };
+
+            //Writing Message & staging user prt to server!
+            fetch("/user/mgsprt", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                // 'Authorization': 'Bearer YOUR_TOKEN',
+              },
+              body: JSON.stringify(data),
+            })
+              .then((response) => response.text())
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((error) => console.log(error));
           }
         });
       }
@@ -292,6 +314,9 @@ const obsrvr = new MutationObserver((mutations) => {
 });
 
 obsrvr.observe(Home, { childList: true, subtree: true });
+
+//Dynamically selected elements
+//2. Sending message & writing to the db, that only!
 
 /* Home.addEventListener("click", function (event) {
   if (event.target.matches(".usrcl")) {

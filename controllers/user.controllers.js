@@ -112,8 +112,13 @@ export const valUrl = async (req, res) => {
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};:'",.<>/?~`|])[A-Za-z\d!@#$%^&*()_+\-=[\]{};:'",.<>/?~`|]{8,}$/;
         const passwdVerify = passwordRegex.test(password);
         const inputRules =
-          "<br>- At least one lowercase letter. <br>- At least one uppercase letter. <br> - At least one digit. <br> - At least one special character.  <br> - No periods! (.) <br>- No spaces  <br> - Minimum length of 8 characters.";
+          "At least one lowercase letter, One uppercase letter, One digit, One special character, No periods! (.),No spaces, length of 8 characters.";
+        /*  "<br>- At least one lowercase letter. <br>- At least one uppercase letter. <br> - At least one digit. <br> - At least one special character.  <br> - No periods! (.) <br>- No spaces  <br> - Minimum length of 8 characters."; */
         if (passwdVerify) {
+          res.json({
+            //code to chcek db account
+            ifRedir: true,
+          });
         } else {
           res.json({
             paswdMgs: inputRules,

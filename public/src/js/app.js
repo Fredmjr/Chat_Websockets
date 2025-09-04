@@ -292,6 +292,48 @@ const obsrvr = new MutationObserver((mutations) => {
               chtmgs: nodeinptcl.value,
             };
 
+            //Verification of loger user token from cookie, through server, and passed back to client as send message fetch
+
+            if (data) {
+              const lgr = ((usrP) => {
+                let ckies = document.cookie.split("; ");
+                for (let i = 0; i < ckies.length; i++) {
+                  let ckie = ckies[i];
+                  let [name, value] = ckie.split("=");
+                  if (name === usrP) {
+                    return decodeURIComponent(value);
+                  }
+                }
+                return null;
+              })("usrP");
+              console.log(lgr);
+            }
+
+            /*
+            if (data) {
+              (loga = () => {
+                logrckie = (elem) => {
+                  let ckies = document.cookie.split("; ");
+                  for (let i = 0; i < ckies.length; i++) {
+                    let cookie = ckies[i];
+                    let [name, value] = cookie.split("=");
+                    if (name === elem) {
+                      return decodeURIComponent(value);
+                    }
+                  }
+                  return null;
+                };
+
+                let logrckie = autockie("usrP");
+                const logrckieObj = {
+                  ckie: logrckie,
+                };
+
+                console.log(logrckieObj);
+                console.log("loger port here");
+              })();
+            } */
+
             //Writing Message & staging user prt to server!
             fetch("/user/mgsprt", {
               method: "POST",

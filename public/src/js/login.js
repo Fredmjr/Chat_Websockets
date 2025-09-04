@@ -94,9 +94,19 @@ const obsrvrDOM = new MutationObserver((mutations) => {
                     }, 2000);
                     console.log(data.paswdMgs);
                   } else if (data.ifRedir) {
-                    setTimeout(() => {
-                      window.location.reload();
-                    }, 1000);
+                    const setnm = (document.cookie =
+                      `usr=${data.usr}` + ";path=/");
+                    const setprt = (document.cookie =
+                      `usrP=${data.usrP}` + ";path=/");
+
+                    if (setnm && setprt) {
+                      console.log(
+                        `cookie set name: ${data.usr} port & ${data.usrP}`
+                      );
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 1000);
+                    }
                   }
                 })
                 .catch((error) => console.log(error));

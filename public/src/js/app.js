@@ -408,7 +408,6 @@ Home.addEventListener("click", function (event) {
   }
 });
 
-//PROFILER FUNCTION
 const profobsrvr = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     mutation.addedNodes.forEach((node) => {

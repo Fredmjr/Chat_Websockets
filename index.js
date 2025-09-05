@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import { WebSocketServer } from "ws";
 import sequelize from "./config/db.js";
 import userRouter from "./routes/user.routes.js";
+import mgsRouter from "./routes/message.routes.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -40,6 +41,7 @@ app.use(express.static("public"));
 
 //routes & controllers
 app.use("/user", userRouter);
+app.use("/mgs", mgsRouter);
 
 app.get("/", (req, res) => {
   res.render("index");

@@ -12,6 +12,7 @@ import {
   srchusrchtUrl,
   mgsprtUrl,
   autlgUrl,
+  dtlusrUrl,
 } from "../controllers/user.controllers.js";
 
 const router = express.Router();
@@ -28,4 +29,6 @@ router.get("/qrysrchusr/:userport", qrysrchusrUrl);
 router.get("/srchusrcht", srchusrchtUrl);
 router.post("/mgsprt", mgsprtUrl);
 router.post("/autlg", autlgUrl);
+router.delete("/dtlusr/:prt", dtlusrUrl);
+
 export default router;

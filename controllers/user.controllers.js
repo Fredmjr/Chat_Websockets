@@ -59,21 +59,32 @@ export const registrationUrl = async (req, res) => {
         const inputRules =
           "<br>- At least one lowercase letter. <br>- At least one uppercase letter. <br> - At least one digit. <br> - At least one special character.  <br> - No periods! (.) <br>- No spaces  <br> - Minimum length of 8 characters.";
         if (passwdVerify) {
-          const newUser = await userModel.create({
-            username: username,
-            email: email,
-            password: password,
+          const ifexists = await userModel.findOne({
+            where: {
+              email: email,
+            },
           });
-          if (newUser) {
+          if (ifexists) {
             res.json({
-              crtAccount: true,
-              usr: newUser.username,
-              usrP: newUser.userport,
-              ctrTime: newUser.createdAt,
-              uptdTime: newUser.updatedAt,
+              erMgs: "User wicth such credentials exists!",
             });
+          } else {
+            const newUser = await userModel.create({
+              username: username,
+              email: email,
+              password: password,
+            });
+            if (newUser) {
+              res.json({
+                crtAccount: true,
+                usr: newUser.username,
+                usrP: newUser.userport,
+                ctrTime: newUser.createdAt,
+                uptdTime: newUser.updatedAt,
+              });
 
-            console.log("user details: " + username, email, password);
+              console.log("user details: " + username, email, password);
+            }
           }
         } else {
           res.json({
@@ -115,10 +126,37 @@ export const valUrl = async (req, res) => {
           "At least one lowercase letter, One uppercase letter, One digit, One special character, No periods! (.),No spaces, length of 8 characters.";
         /*  "<br>- At least one lowercase letter. <br>- At least one uppercase letter. <br> - At least one digit. <br> - At least one special character.  <br> - No periods! (.) <br>- No spaces  <br> - Minimum length of 8 characters."; */
         if (passwdVerify) {
-          res.json({
-            //code to chcek db account
-            ifRedir: true,
+          console.log(email, password);
+          const chkdemail = await userModel.findOne({
+            where: {
+              email: email,
+            },
           });
+          if (chkdemail) {
+            const chkdpwd = await userModel.findOne({
+              where: {
+                password: password,
+              },
+            });
+
+            if (chkdpwd) {
+              //send token instead here for login then of send email and port in production
+              //here token
+              //here token
+              //here token
+              res.json({
+                ifRedir: true,
+                usr: chkdpwd.username,
+                usrP: chkdpwd.userport,
+              });
+
+              console.log(chkdpwd.password);
+            } else {
+              res.json({
+                erMgs: "Incorrect password!",
+              });
+            }
+          }
         } else {
           res.json({
             paswdMgs: inputRules,
@@ -256,9 +294,9 @@ export const srchusrchtUrl = async (req, res) => {
 
 //
 export const mgsprtUrl = async (req, res) => {
-  const { chtprt, chtmgs } = req.body;
+  const { chtprt, chtmgs, chtlgr } = req.body;
   try {
-    if ((chtprt, chtmgs)) {
+    if ((chtprt, chtmgs, chtlgr)) {
       //add code to write user port and user message to db here!!!!!!!!!
       //write to db userport & usermgs
       //write to db userport & usermgs
@@ -272,7 +310,9 @@ export const mgsprtUrl = async (req, res) => {
       //write to db userport & usermgs
       //write to db userport & usermgs
       //write to db userport & usermgs
-      res.send(`wrote to db usrprt: ${chtprt} & usrmgs: ${chtmgs}`);
+      res.send(
+        `wrote to db usrprt: ${chtprt} & usrmgs: ${chtmgs} & usrloger: ${chtlgr}`
+      );
     } else if (!chtmgs) {
       res.send("message is empt!");
     }
@@ -307,3 +347,29 @@ export const mgsprtUrl = async (req, res) => {
   }
 };
  */
+
+//Delete user from db
+// For devs only remove or comment out this url & controller
+export const dtlusrUrl = async (req, res) => {
+  const prt = req.params.prt;
+
+  try {
+    if (prt) {
+      const rsltsprt = await userModel.findByPk(prt);
+      if (rsltsprt) {
+        const rsltdtl = await rsltsprt.destroy();
+        if (rsltdtl) {
+          res.send("account deleted!");
+        } else {
+          res.send("Unable to delete account!");
+        }
+      } else {
+        res.send("No account with such credentials!");
+      }
+    } else {
+      res.send("failed to delete user account!");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

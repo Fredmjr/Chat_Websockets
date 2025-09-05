@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/js/cookie.modular.js"],
+  "sourcesContent": ["//Simple cookie self invoking function\r\n//use it for quick simple token getting, here usrP is the name(key) of token (value )\r\nconst dtest = true;\r\n\r\nif (dtest) {\r\n  const lgr = ((usrP) => {\r\n    let ckies = document.cookie.split(\"; \");\r\n    for (let i = 0; i < ckies.length; i++) {\r\n      let ckie = ckies[i];\r\n      let [name, value] = ckie.split(\"=\");\r\n      if (name === usrP) {\r\n        return decodeURIComponent(value);\r\n      }\r\n    }\r\n    return null;\r\n  })(\"usrP\");\r\n  console.log(lgr);\r\n}\r\n\r\n//Dont run this file unless you connect it to something!!\r\n"],
+  "mappings": "AAIW,CACT,IAAMA,GAAQC,GAAS,CACrB,IAAIC,EAAQ,SAAS,OAAO,MAAM,IAAI,EACtC,QAASC,EAAI,EAAGA,EAAID,EAAM,OAAQC,IAAK,CACrC,IAAIC,EAAOF,EAAMC,CAAC,EACd,CAACE,EAAMC,CAAK,EAAIF,EAAK,MAAM,GAAG,EAClC,GAAIC,IAASJ,EACX,OAAO,mBAAmBK,CAAK,CAEnC,CACA,OAAO,IACT,GAAG,MAAM,EACT,QAAQ,IAAIN,CAAG,CACjB",
+  "names": ["lgr", "usrP", "ckies", "i", "ckie", "name", "value"]
+}

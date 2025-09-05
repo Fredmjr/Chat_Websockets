@@ -282,11 +282,13 @@ const obsrvr = new MutationObserver((mutations) => {
         ? node
         : node.querySelector?.(".nmcl");
 
+      //1.1 WRITING messsage usrport and seleted usrport TO DB.
       if (nodeinptcl) {
         Home.addEventListener("click", function (event) {
           if (event.target.matches(".chtsbmtBtn")) {
             console.log("dataset for nmcl: " + nodenmcl.dataset.prt);
             console.log("message value for inptcl: " + nodeinptcl.value);
+            //sorry for this repeat of data object below, will fix late!!!!
             const data = {
               chtprt: nodenmcl.dataset.prt,
               chtmgs: nodeinptcl.value,
@@ -306,48 +308,30 @@ const obsrvr = new MutationObserver((mutations) => {
                 }
                 return null;
               })("usrP");
-              console.log(lgr);
+
+              if (lgr) {
+                const chtdata = {
+                  chtprt: nodenmcl.dataset.prt,
+                  chtmgs: nodeinptcl.value,
+                  chtlgr: lgr,
+                };
+                console.log(chtdata);
+                //Writing Message & staging user prt to server!
+                fetch("/mgs/crtmgs", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    // 'Authorization': 'Bearer YOUR_TOKEN',
+                  },
+                  body: JSON.stringify(chtdata),
+                })
+                  .then((response) => response.text())
+                  .then((data) => {
+                    console.log(data);
+                  })
+                  .catch((error) => console.log(error));
+              }
             }
-
-            /*
-            if (data) {
-              (loga = () => {
-                logrckie = (elem) => {
-                  let ckies = document.cookie.split("; ");
-                  for (let i = 0; i < ckies.length; i++) {
-                    let cookie = ckies[i];
-                    let [name, value] = cookie.split("=");
-                    if (name === elem) {
-                      return decodeURIComponent(value);
-                    }
-                  }
-                  return null;
-                };
-
-                let logrckie = autockie("usrP");
-                const logrckieObj = {
-                  ckie: logrckie,
-                };
-
-                console.log(logrckieObj);
-                console.log("loger port here");
-              })();
-            } */
-
-            //Writing Message & staging user prt to server!
-            fetch("/user/mgsprt", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                // 'Authorization': 'Bearer YOUR_TOKEN',
-              },
-              body: JSON.stringify(data),
-            })
-              .then((response) => response.text())
-              .then((data) => {
-                console.log(data);
-              })
-              .catch((error) => console.log(error));
           }
         });
       }
@@ -423,3 +407,22 @@ Home.addEventListener("click", function (event) {
       .catch((error) => console.log(error));
   }
 });
+
+//PROFILER FUNCTION
+const profobsrvr = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    mutation.addedNodes.forEach((node) => {
+      //for value of input element
+      const nodemnchtMgs = node.matches?.(".mnchtMgs")
+        ? node
+        : node.querySelector?.(".mnchtMgs");
+
+      //1.1 WRITING messsage usrport and seleted usrport TO DB.
+      if (nodemnchtMgs) {
+        console.log("profileer herer for both ...........................");
+      }
+    });
+  });
+});
+
+profobsrvr.observe(Home, { childList: true, subtree: true });

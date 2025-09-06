@@ -257,8 +257,10 @@ Home.addEventListener("click", function (event) {
             .then((data) => {
               Home.innerHTML = data;
               const nmcl = document.querySelector(".nmcl");
+              /* const mnchtMgs = document.querySelector(".mnchtMgs"); */
               nmcl.innerHTML = usrnm;
               nmcl.dataset.prt = targtdusrcl.dataset.prt;
+              /* mnchtMgs.dataset.prt = targtdusrcl.dataset.prt; */
             })
             .catch((error) => console.log(error));
         }
@@ -408,7 +410,7 @@ Home.addEventListener("click", function (event) {
   }
 });
 
-const profobsrvr = new MutationObserver((mutations) => {
+/* const profobsrvr = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     mutation.addedNodes.forEach((node) => {
       //for value of input element
@@ -418,10 +420,10 @@ const profobsrvr = new MutationObserver((mutations) => {
 
       //1.1 WRITING messsage usrport and seleted usrport TO DB.
       if (nodemnchtMgs) {
-        console.log("profileer herer for both ...........................");
+        console.log("mnchtMgs here");
       }
     });
   });
 });
 
-profobsrvr.observe(Home, { childList: true, subtree: true });
+profobsrvr.observe(Home, { childList: true, subtree: true }); */

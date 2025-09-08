@@ -43,14 +43,44 @@ export const crtmgsUrl = async (req, res) => {
 
   try {
     if (chtmgs && chtlgr && chtprt) {
-      const rsltmgs = await mgsModel.create({
-        message: chtmgs,
-        from: chtlgr,
-        to: chtprt,
-      });
-
       if (rsltmgs) {
-        res.send("message sent!");
+        const message = await mgsModel.create({
+          message: chtmgs,
+          from: chtlgr,
+          to: chtprt,
+        });
+        if (message) {
+          res.send("message sent!");
+          console.log(message);
+        } else {
+          res.send("failed to send message!");
+        }
+      }
+    } else {
+      res.send("Unable to send message!");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//quered messages
+export const prtsmgsUrl = async (req, res) => {
+  const { sltdusr, lgrsur } = req.body;
+
+  try {
+    if (sltdusr && lgrsur) {
+      const messages = await mgsModel.findAll({
+        where: {
+          from: lgrsur,
+          to: sltdusr,
+        },
+      });
+      /*   res.send("messages coming"); */
+      console.log(lgrsur, sltdusr);
+      console.log(messages);
+      if (messages) {
+        res.send(messages);
       }
     } else {
       res.send("Unable to send message!");

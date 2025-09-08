@@ -12,9 +12,45 @@
     return null;
   };
 
-  let usrckie = autockie("targtdusrprt");
-  const ckieObj = {
-    ckie: usrckie,
+  let sltdusrp = autockie("targtdusrprt");
+  let lgrusrp = autockie("usrP");
+  const prtsObj = {
+    lgrsur: lgrusrp,
+    sltdusr: sltdusrp,
   };
-  console.log("stored selected user port: " + usrckie);
+  console.log(`loger: ${lgrusrp} & recepient: ${sltdusrp}`);
+
+  //  Query messages
+  const Home = document.querySelector(".Home");
+  fetch("/mgs/prtsmgs", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      // 'Authorization': 'Bearer YOUR_TOKEN',
+    },
+    body: JSON.stringify(prtsObj),
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      if (data) {
+        //Messages
+        const proflrobsrvr = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            mutation.addedNodes.forEach((node) => {
+              const nodemnchtMgs = node.matches?.(".mnchtMgs")
+                ? node
+                : node.querySelector?.(".mnchtMgs");
+
+              if (nodemnchtMgs) {
+                nodemnchtMgs.innerHTML = `${data}`;
+                console.log(data);
+              }
+            });
+          });
+        });
+
+        proflrobsrvr.observe(Home, { childList: true, subtree: true });
+      }
+    })
+    .catch((error) => console.log(error));
 })();

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/js/mgs.js"],
+  "sourcesContent": ["// User auto login\r\n(sltdusrFuc = () => {\r\n  autockie = (elem) => {\r\n    let ckies = document.cookie.split(\"; \");\r\n    for (let i = 0; i < ckies.length; i++) {\r\n      let cookie = ckies[i];\r\n      let [name, value] = cookie.split(\"=\");\r\n      if (name === elem) {\r\n        return decodeURIComponent(value);\r\n      }\r\n    }\r\n    return null;\r\n  };\r\n\r\n  let usrckie = autockie(\"targtdusrprt\");\r\n  const ckieObj = {\r\n    ckie: usrckie,\r\n  };\r\n  console.log(\"stored selected user port: \" + usrckie);\r\n})();\r\n"],
+  "mappings": "gFACC,WAAaA,EAAA,IAAM,CAClB,SAAWA,EAACC,GAAS,CACnB,IAAIC,EAAQ,SAAS,OAAO,MAAM,IAAI,EACtC,QAASC,EAAI,EAAGA,EAAID,EAAM,OAAQC,IAAK,CACrC,IAAIC,EAASF,EAAMC,CAAC,EAChB,CAACE,EAAMC,CAAK,EAAIF,EAAO,MAAM,GAAG,EACpC,GAAIC,IAASJ,EACX,OAAO,mBAAmBK,CAAK,CAEnC,CACA,OAAO,IACT,EAVW,YAYX,IAAIC,EAAU,SAAS,cAAc,EAC/BC,EAAU,CACd,KAAMD,CACR,EACA,QAAQ,IAAI,8BAAgCA,CAAO,CACrD,EAlBc,eAkBX",
+  "names": ["__name", "elem", "ckies", "i", "cookie", "name", "value", "usrckie", "ckieObj"]
+}

@@ -1,0 +1,2 @@
+var n=Object.defineProperty;var o=(e,l)=>n(e,"name",{value:l,configurable:!0});(sltdusrFuc=o(()=>{autockie=o(r=>{let c=document.cookie.split("; ");for(let t=0;t<c.length;t++){let i=c[t],[s,u]=i.split("=");if(s===r)return decodeURIComponent(u)}return null},"autockie");let e=autockie("targtdusrprt"),l={ckie:e};console.log("stored selected user port: "+e)},"sltdusrFuc"))();
+//# sourceMappingURL=mgs.js.map

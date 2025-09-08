@@ -234,6 +234,22 @@ Home.addEventListener("click", function (event) {
   if (event.target.matches(".usrcl")) {
     const targtdusrcl = event.target;
     console.log("hello" + " dataset:" + targtdusrcl.dataset.prt);
+
+    //Storing seleted user port in cookies for 7 days
+    //DUCKDB can be use here!!
+    (async = () => {
+      const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+      const see = () => {
+        document.cookie =
+          `targtdusrprt=${encodeURIComponent(targtdusrcl.dataset.prt)}; ` +
+          `Secure; SameSite=Strict; expires=${expires.toUTCString()}; path=/`;
+        console.log(
+          `selected user with ${targtdusrcl.dataset.prt} stored key:targtdusrprt in cookie!`
+        );
+      };
+      see();
+    })();
+
     fetch(`/user/qrysrchusr/${targtdusrcl.dataset.prt}`, {
       method: "GET",
       headers: {
@@ -257,10 +273,8 @@ Home.addEventListener("click", function (event) {
             .then((data) => {
               Home.innerHTML = data;
               const nmcl = document.querySelector(".nmcl");
-              /* const mnchtMgs = document.querySelector(".mnchtMgs"); */
               nmcl.innerHTML = usrnm;
               nmcl.dataset.prt = targtdusrcl.dataset.prt;
-              /* mnchtMgs.dataset.prt = targtdusrcl.dataset.prt; */
             })
             .catch((error) => console.log(error));
         }

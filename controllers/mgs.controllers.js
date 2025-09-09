@@ -43,18 +43,16 @@ export const crtmgsUrl = async (req, res) => {
 
   try {
     if (chtmgs && chtlgr && chtprt) {
-      if (rsltmgs) {
-        const message = await mgsModel.create({
-          message: chtmgs,
-          from: chtlgr,
-          to: chtprt,
-        });
-        if (message) {
-          res.send("message sent!");
-          console.log(message);
-        } else {
-          res.send("failed to send message!");
-        }
+      const message = await mgsModel.create({
+        message: chtmgs,
+        from: chtlgr,
+        to: chtprt,
+      });
+      if (message) {
+        res.send("message sent!");
+        console.log(message);
+      } else {
+        res.send("failed to send message!");
       }
     } else {
       res.send("Unable to send message!");

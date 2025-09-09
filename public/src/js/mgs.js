@@ -1,7 +1,3 @@
-// User auto login
-/* setInterval(() => {
-  console.log("hi");
-}, 1000); */
 (sltdusrFuc = () => {
   autockie = (elem) => {
     let ckies = document.cookie.split("; ");

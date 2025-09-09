@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/js/expo.js", "../../src/js/impo.js"],
+  "sourcesContent": ["export const expoFuc = () => {\r\n  setInterval(() => {\r\n    console.log(\"hi\");\r\n  }, 1000);\r\n};\r\n", "import { expoFuc } from \"./expo.js\";\r\nexpoFuc();\r\n"],
+  "mappings": "+EAAO,IAAMA,EAAUC,EAAA,IAAM,CAC3B,YAAY,IAAM,CAChB,QAAQ,IAAI,IAAI,CAClB,EAAG,GAAI,CACT,EAJuB,WCCvBC,EAAQ",
+  "names": ["expoFuc", "__name", "expoFuc"]
+}

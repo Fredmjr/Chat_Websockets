@@ -153,6 +153,7 @@
                           .then((data) => {
                             if (data) {
                               //Messages
+
                               nodemnchtMgs.innerHTML = `${data}`;
                               console.log(data);
                             }

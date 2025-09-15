@@ -78,11 +78,24 @@ export const prtsmgsUrl = async (req, res) => {
       console.log(lgrsur, sltdusr);
       console.log(messages);
       if (messages) {
-        res.send(messages);
+        //res.send(messages); --Change .json to .text client fetch req if sending just the message in normal version.
+
+        res.status(200).send(messages);
+        //res.status(200).send("New message!");
       }
     } else {
       res.send("Unable to send message!");
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const scktUrl = async (req, res) => {
+  try {
+    console.log("websokcets");
+    //here add functionality for new message
+    res.status(200).send("New message!");
   } catch (error) {
     console.log(error);
   }

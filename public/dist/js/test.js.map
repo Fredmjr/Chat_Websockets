@@ -1,7 +1,7 @@
 {
   "version": 3,
-  "sources": ["../../src/js/test.js"],
-  "sourcesContent": ["const socket = new WebSocket(\"ws://localhost:8101\");\r\nsocket.addEventListener(\"open\", () => {\r\n  console.log(\"we are connected\");\r\n});\r\n\r\nsocket.addEventListener(\"message\", (event) => {\r\n  console.log(event.data);\r\n  logId.textContent = event.data;\r\n});\r\n"],
-  "mappings": "AAAA,IAAMA,EAAS,IAAI,UAAU,qBAAqB,EAClDA,EAAO,iBAAiB,OAAQ,IAAM,CACpC,QAAQ,IAAI,kBAAkB,CAChC,CAAC,EAEDA,EAAO,iBAAiB,UAAYC,GAAU,CAC5C,QAAQ,IAAIA,EAAM,IAAI,EACtB,MAAM,YAAcA,EAAM,IAC5B,CAAC",
-  "names": ["socket", "event"]
+  "sources": [],
+  "sourcesContent": [],
+  "mappings": "",
+  "names": []
 }

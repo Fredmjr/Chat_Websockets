@@ -68,19 +68,31 @@ export const prtsmgsUrl = async (req, res) => {
 
   try {
     if (sltdusr && lgrsur) {
-      const messages = await mgsModel.findAll({
+      const messages1 = await mgsModel.findAll({
         where: {
           from: lgrsur,
           to: sltdusr,
         },
       });
+      const messages2 = await mgsModel.findAll({
+        where: {
+          from: sltdusr,
+          to: lgrsur,
+        },
+      });
+      //comnation of messages (two arrays)
+      const bothmgs = [...messages1, ...messages2];
+      //sorting the array of messages based on date and time (createdAt)
+      const sortedbothmgs = bothmgs.sort(
+        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+      );
       /*   res.send("messages coming"); */
       console.log(lgrsur, sltdusr);
-      console.log(messages);
-      if (messages) {
+      console.log(sortedbothmgs);
+      if (sortedbothmgs) {
         //res.send(messages); --Change .json to .text client fetch req if sending just the message in normal version.
 
-        res.status(200).send(messages);
+        res.status(200).send(bothmgs);
         //res.status(200).send("New message!");
       }
     } else {

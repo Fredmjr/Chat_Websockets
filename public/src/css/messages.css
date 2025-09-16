@@ -1,0 +1,17 @@
+.mgscrd {
+  padding: 0px 20px;
+}
+.mgsftnote {
+  font-size: 9px;
+  color: rgb(62, 62, 62);
+}
+.singlemgscl {
+  text-align: end;
+  margin: 5px 0px;
+}
+.mgscrdCnt {
+  background-color: rgb(23, 23, 23);
+  padding: 7px 10px;
+  margin: 5px 0px;
+  border-radius: 3px;
+}

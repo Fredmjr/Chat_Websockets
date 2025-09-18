@@ -1,4 +1,5 @@
 import mgsModel from "../models/mgs.model.js";
+import { WebSocketServer } from "ws";
 
 //Creating message
 export const oneUrl = async (req, res) => {
@@ -55,7 +56,7 @@ export const crtmgsUrl = async (req, res) => {
         res.send("failed to send message!");
       }
     } else {
-      res.send("Unable to send message!");
+      res.send("Input is empty, unable to send message!");
     }
   } catch (error) {
     console.log(error);
@@ -103,6 +104,64 @@ export const prtsmgsUrl = async (req, res) => {
   }
 };
 
+//websockt messages
+(function webskt() {
+  const server = new WebSocketServer({
+    port: 2001,
+  });
+
+  server.on("connection", (ws) => {
+    ws.on("message", (message) => {
+      console.log(message.toString());
+      const prsdObj = JSON.parse(message);
+      const selectedprt = prsdObj.sltdusr;
+      const logerprt = prsdObj.lgrusr;
+      console.log(logerprt, selectedprt);
+      async function websk() {
+        try {
+          if (logerprt && selectedprt) {
+            const messages1 = await mgsModel.findAll({
+              where: {
+                from: logerprt,
+                to: selectedprt,
+              },
+            });
+            const messages2 = await mgsModel.findAll({
+              where: {
+                from: selectedprt,
+                to: logerprt,
+              },
+            });
+            //comnation of messages (two arrays)
+            const bothmgs = [...messages1, ...messages2];
+            //sorting the array of messages based on date and time (createdAt)
+            const sortedbothmgs = bothmgs.sort(
+              (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+            );
+
+            //converting to plain text from SequelizeInstance format data
+            const cnvrtdMgs = sortedbothmgs.map((msg) => msg.toJSON());
+
+            if (cnvrtdMgs) {
+              ws.send(JSON.stringify(cnvrtdMgs));
+            }
+          } else {
+            ws.send("Unable to send message!");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      websk();
+    });
+    ws.on("close", () => {
+      console.log("closed");
+    });
+    //ws.send('default startere mgs') //default optional
+  });
+})();
+
+//Delete this function below, was suppposed to be used for websocket!
 export const scktUrl = async (req, res) => {
   try {
     console.log("websokcets");

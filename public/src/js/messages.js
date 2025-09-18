@@ -161,34 +161,29 @@
                         let sltdusrp = autockie("targtdusrprt");
                         let lgrusrp = autockie("usrP");
                         const prtsObj = {
-                          lgrsur: lgrusrp,
+                          lgrusr: lgrusrp,
                           sltdusr: sltdusrp,
                         };
                         console.log(
                           `both loger: ${lgrusrp} & recepient: ${sltdusrp}`
                         );
+                        //WEBSOCKET WITH MESSAGE PROFILER FUNCTION
+                        //localhost,live, mgs & data sent
+                        const socket = new WebSocket("ws://localhost:2001");
+                        socket.addEventListener("open", () => {
+                          console.log("Live!!!!");
+                          socket.send(JSON.stringify(prtsObj));
+                        }); //testing socket mgs
+                        socket.addEventListener("message", (event) => {
+                          /* console.log(event.data); */
+                          const datadt = JSON.parse(event.data); // Parse the JSON string
 
-                        fetch("/mgs/prtsmgs", {
-                          method: "POST",
-                          headers: {
-                            "Content-Type": "application/json",
-                            // 'Authorization': 'Bearer YOUR_TOKEN',
-                          },
-                          body: JSON.stringify(prtsObj),
-                        })
-                          .then((response) => response.text())
-                          .then((data) => {
-                            if (data) {
-                              //Messages
+                          if (Array.isArray(datadt)) {
+                            nodemnchtMgs.innerHTML = ""; // Clear the panel first
 
-                              const datadt = JSON.parse(data); // Parse the JSON string
-
-                              if (Array.isArray(datadt)) {
-                                nodemnchtMgs.innerHTML = ""; // Clear the panel first
-
-                                datadt.forEach((msg) => {
-                                  const msgDiv = document.createElement("div");
-                                  msgDiv.innerHTML = `
+                            datadt.forEach((msg) => {
+                              const msgDiv = document.createElement("div");
+                              msgDiv.innerHTML = `
                                   <div class="mgscrd" data-id="${
                                     msg.id
                                   }" data-pstn="${msg.from}">
@@ -197,20 +192,17 @@
                                     msg.message
                                   }</p>
                                   <span class="mgsftnote">From ${msg.from} to ${
-                                    msg.to
-                                  } -- ${new Date(
-                                    msg.createdAt
-                                  ).toLocaleString()}</span>
+                                msg.to
+                              } -- ${new Date(
+                                msg.createdAt
+                              ).toLocaleString()}</span>
                                   
                                   </div>
                                   </div> `;
-                                  nodemnchtMgs.appendChild(msgDiv);
-                                });
-                              }
-                              console.log(data);
-                            }
-                          })
-                          .catch((error) => console.log(error));
+                              nodemnchtMgs.appendChild(msgDiv);
+                            });
+                          }
+                        }); //manual mgs (default or data)
                       });
                     }
                   });

@@ -41,7 +41,6 @@ export const signupUrl = async (req, res) => {
 
 //Register or siginup user
 export const registrationUrl = async (req, res) => {
-  const { username, email, password } = req.body;
   try {
     if (username !== "" && email !== "" && password !== "") {
       //email verification

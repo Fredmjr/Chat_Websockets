@@ -131,3 +131,102 @@
   proflrobsrvr.observe(Home, { childList: true, subtree: true });
 })();
  */
+
+//SOCK FOR CLICK MGS PROFILER FUNCTION
+/* 
+import { WebSocketServer } from "ws";
+
+const server = new WebSocketServer({
+  port: 1001,
+});
+
+const clients = new Set();
+
+server.on("connection", (ws) => {
+  clients.add(ws);
+  console.log("connected: " + clients.size);
+
+  ws.on("message", (message) => {
+    (message.toString());
+    for (const client of clients) {
+      if (client !== ws  && client.readyState === client.OPEN ) {
+        client.send("message received:" + message.toString());
+      }
+    }
+  });
+
+  ws.on("close", () => {
+    clients.delete(ws);
+    console.log("closed" + clients.size);
+  });
+  ws.send("welcome");
+});
+
+/* server.close();
+console.log("server running on port 1001"); */
+
+//FULL SOCKET
+/* (function webskt() {
+  const server = new WebSocketServer({
+    port: 2001,
+  });
+
+  const clients = new Set();
+
+  server.on("connection", (ws) => {
+    clients.add(ws);
+    console.log("connected usrs: " + clients.size);
+    ws.on("message", (message) => {
+      console.log(message.toString());
+      const prsdObj = JSON.parse(message);
+      const selectedprt = prsdObj.sltdusr;
+      const logerprt = prsdObj.lgrusr;
+      console.log(logerprt, selectedprt);
+      async function websk() {
+        try {
+          if (logerprt && selectedprt) {
+            const messages1 = await mgsModel.findAll({
+              where: {
+                from: logerprt,
+                to: selectedprt,
+              },
+            });
+            const messages2 = await mgsModel.findAll({
+              where: {
+                from: selectedprt,
+                to: logerprt,
+              },
+            });
+
+            const bothmgs = [...messages1, ...messages2];
+
+            const sortedbothmgs = bothmgs.sort(
+              (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+            );
+
+            const cnvrtdMgs = sortedbothmgs.map((msg) => msg.toJSON());
+
+            if (cnvrtdMgs) {
+              for (const client of clients) {
+                if (client !== ws && client.readyState === client.OPEN) {
+                  client.send(JSON.stringify(cnvrtdMgs));
+                }
+              }
+            }
+          } else {
+            res.send("Unable to send message!");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      websk();
+    });
+    ws.on("close", () => {
+      clients.delete(ws);
+      console.log("closed" + clients.size);
+      console.log("closed");
+    });
+  });
+})();
+ */

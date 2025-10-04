@@ -105,59 +105,78 @@ export const prtsmgsUrl = async (req, res) => {
 };
 
 //websockt messages
+//Major updated changes to your original socket code bro
 (function webskt() {
   const server = new WebSocketServer({
     port: 2001,
   });
+  const clients = new Map(); //1. Tracking each conncted users
 
   server.on("connection", (ws) => {
-    ws.on("message", (message) => {
+    ws.on("message", async (message) => {
+      //2. Added async to this instead of a function like async function websk() {} which is unnecessary.
       console.log(message.toString());
       const prsdObj = JSON.parse(message);
       const selectedprt = prsdObj.sltdusr;
       const logerprt = prsdObj.lgrusr;
       console.log(logerprt, selectedprt);
-      async function websk() {
-        try {
-          if (logerprt && selectedprt) {
-            const messages1 = await mgsModel.findAll({
-              where: {
-                from: logerprt,
-                to: selectedprt,
-              },
-            });
-            const messages2 = await mgsModel.findAll({
-              where: {
-                from: selectedprt,
-                to: logerprt,
-              },
-            });
-            //comnation of messages (two arrays)
-            const bothmgs = [...messages1, ...messages2];
-            //sorting the array of messages based on date and time (createdAt)
-            const sortedbothmgs = bothmgs.sort(
-              (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-            );
-
-            //converting to plain text from SequelizeInstance format data
-            const cnvrtdMgs = sortedbothmgs.map((msg) => msg.toJSON());
-
-            if (cnvrtdMgs) {
-              ws.send(JSON.stringify(cnvrtdMgs));
-            }
-          } else {
-            ws.send("Unable to send message!");
-          }
-        } catch (error) {
-          console.log(error);
-        }
+      //3. Saved the connection to the logerport (sender) the use it to send message that comes  from a receiver (selectedprt).
+      if (logerprt) {
+        clients.set(logerprt, ws);
       }
-      websk();
+
+      try {
+        if (logerprt && selectedprt) {
+          const messages1 = await mgsModel.findAll({
+            where: {
+              from: logerprt,
+              to: selectedprt,
+            },
+          });
+          const messages2 = await mgsModel.findAll({
+            where: {
+              from: selectedprt,
+              to: logerprt,
+            },
+          });
+          //comnation of messages (two arrays)
+          const bothmgs = [...messages1, ...messages2];
+          //sorting the array of messages based on date and time (createdAt)
+          const sortedbothmgs = bothmgs.sort(
+            (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+          );
+
+          //converting to plain text from SequelizeInstance format data
+          const cnvrtdMgs = sortedbothmgs.map((msg) => msg.toJSON());
+          //4. stringified converted messages the server must send a stringified JSON, that's how WebSocket communication works.
+          const stringifiedData = JSON.stringify(cnvrtdMgs);
+
+          //5. Send to sender (logerprt)
+          if (clients.has(logerprt)) {
+            clients.get(logerprt).send(stringifiedData);
+          }
+
+          // 6. Send to recipient (selectedprt)
+          if (selectedprt !== logerprt && clients.has(selectedprt)) {
+            clients.get(selectedprt).send(stringifiedData);
+          }
+        } else {
+          ws.send("Unable to send message!");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     });
     ws.on("close", () => {
+      //7.
+      for (const [user, socket] of clients.entries()) {
+        if (socket === ws) {
+          clients.delete(user);
+          break;
+        }
+      }
       console.log("closed");
     });
-    //ws.send('default startere mgs') //default optional
   });
 })();
 

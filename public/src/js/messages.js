@@ -200,6 +200,7 @@
                                   </div>
                                   </div> `;
                               nodemnchtMgs.appendChild(msgDiv);
+                              console.log("working on socket");
                             });
                           }
                         }); //manual mgs (default or data)
@@ -313,4 +314,98 @@
   });
 
   positionerobsrvr.observe(Home, { childList: true, subtree: true });
+})();
+
+//Auto connection to websocket
+
+(autoSocket = () => {
+  const Home = document.querySelector(".Home");
+  const proflrobsrvr = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        const nodeusrcl = node.matches?.(".usrcl")
+          ? node
+          : node.querySelector?.(".usrcl");
+
+        if (nodeusrcl) {
+          Home.addEventListener("click", function (event) {
+            if (event.target.matches(".usrcl")) {
+              //message div for messages purpose!
+              const mnchtMgsobsrvr = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                  mutation.addedNodes.forEach((node) => {
+                    const nodemnchtMgs = node.matches?.(".mnchtMgs")
+                      ? node
+                      : node.querySelector?.(".mnchtMgs");
+
+                    const nodechtsbmtBtn = node.matches?.(".chtsbmtBtn")
+                      ? node
+                      : node.querySelector?.(".chtsbmtBtn");
+
+                    if (nodechtsbmtBtn) {
+                      autockie = (elem) => {
+                        let ckies = document.cookie.split("; ");
+                        for (let i = 0; i < ckies.length; i++) {
+                          let cookie = ckies[i];
+                          let [name, value] = cookie.split("=");
+                          if (name === elem) {
+                            return decodeURIComponent(value);
+                          }
+                        }
+                        return null;
+                      };
+
+                      let sltdusrp = autockie("targtdusrprt");
+                      let lgrusrp = autockie("usrP");
+                      const prtsObj = {
+                        lgrusr: lgrusrp,
+                        sltdusr: sltdusrp,
+                      };
+                      //WEBSOCKET WITH MESSAGE PROFILER FUNCTION
+                      //localhost,live, mgs & data sent
+                      const socket = new WebSocket("ws://localhost:2001");
+                      socket.addEventListener("open", () => {
+                        socket.send(JSON.stringify(prtsObj));
+                      });
+                      socket.addEventListener("message", (event) => {
+                        const datadt = JSON.parse(event.data);
+
+                        if (Array.isArray(datadt)) {
+                          nodemnchtMgs.innerHTML = "";
+
+                          datadt.forEach((msg) => {
+                            const msgDiv = document.createElement("div");
+                            msgDiv.innerHTML = `
+                                  <div class="mgscrd" data-id="${
+                                    msg.id
+                                  }" data-pstn="${msg.from}">
+
+                                  <div class="mgscrdCnt"><p class="singlemgscl">${
+                                    msg.message
+                                  }</p>
+                                  <span class="mgsftnote">From ${msg.from} to ${
+                              msg.to
+                            } -- ${new Date(
+                              msg.createdAt
+                            ).toLocaleString()}</span>
+                                  
+                                  </div>
+                                  </div> `;
+                            nodemnchtMgs.appendChild(msgDiv);
+                          });
+                        }
+                      });
+                    }
+                  });
+                });
+              });
+              mnchtMgsobsrvr.observe(Home, { childList: true, subtree: true });
+            }
+          });
+        }
+      });
+    });
+  });
+
+  proflrobsrvr.observe(Home, { childList: true, subtree: true });
 })();

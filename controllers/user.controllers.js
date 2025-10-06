@@ -41,6 +41,7 @@ export const signupUrl = async (req, res) => {
 
 //Register or siginup user
 export const registrationUrl = async (req, res) => {
+  const { username, email, password } = req.body;
   try {
     if (username !== "" && email !== "" && password !== "") {
       //email verification
@@ -65,7 +66,7 @@ export const registrationUrl = async (req, res) => {
           });
           if (ifexists) {
             res.json({
-              erMgs: "User wicth such credentials exists!",
+              erMgs: "User with provided credentials exists!",
             });
           } else {
             const newUser = await userModel.create({
@@ -76,6 +77,7 @@ export const registrationUrl = async (req, res) => {
             if (newUser) {
               res.json({
                 crtAccount: true,
+                redir: true,
                 usr: newUser.username,
                 usrP: newUser.userport,
                 ctrTime: newUser.createdAt,
@@ -134,6 +136,7 @@ export const valUrl = async (req, res) => {
           if (chkdemail) {
             const chkdpwd = await userModel.findOne({
               where: {
+                email: email,
                 password: password,
               },
             });

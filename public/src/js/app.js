@@ -163,29 +163,14 @@ Home.addEventListener("click", function (event) {
             ersignupPlank.style.display = "none";
           }, 6000);
         } else if (data.crtAccount === true) {
-          console.log(data.usr, data.usrP + "herererer");
+          console.log("Account created!: " + data.usr, data.usrP);
           document.cookie = `usr=${data.usr}` + ";path=/";
           document.cookie = `usrP=${data.usrP}` + ";path=/";
-          /*           document.cookie = "usr=data.usr" + ";path=/";
-
-          getCookie=(cookieName)=>{
-         let cookies = document.cookie.split("; ");
-
-            for (let i = 0; i < cookies.length; i++) {
-              let cookie = cookies[i];
-              let [name, value] = cookie.split("=");
-
-              if (name === cookieName) {
-                return decodeURIComponent(value);
-              }
-            }
-
-            return null;
+          if (data.redir === true) {
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
           }
-
-          let username = getCookie("username");
-          console.log(username);
-        */
         }
       })
       .catch((error) => console.log(error));

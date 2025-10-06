@@ -119,3 +119,109 @@ const obsrvrDOM = new MutationObserver((mutations) => {
 });
 
 obsrvrDOM.observe(bodyDOM, { childList: true, subtree: true });
+
+//1.1 Swtich from login to Signup page (1.Sigup page)
+const Home_DOM = document.querySelector(".Home");
+if (bodyDOM) {
+  const sgupnpgobsrvr = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        const nodesignup_Btn = node.matches?.(".signup_Btn")
+          ? node
+          : node.querySelector?.(".signup_Btn");
+
+        if (nodesignup_Btn) {
+          nodesignup_Btn.addEventListener("click", () => {
+            fetch("/user/sgnpg", {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                // 'Authorization': 'Bearer YOUR_TOKEN',
+              },
+            })
+              .then((response) => response.text())
+              .then((data) => {
+                document.body.innerHTML = data;
+                //
+              })
+              .catch((error) => console.log(error));
+          });
+        }
+      });
+    });
+  });
+
+  sgupnpgobsrvr.observe(document.body, { childList: true, subtree: true });
+}
+
+//1.2 Swtich from login to Signup page (2.Register new user, 3.Set token & 4.Then home page
+if (bodyDOM) {
+  const jgobsrvr = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        const nodesubsignupBtn = node.matches?.(".subsignupBtn")
+          ? node
+          : node.querySelector?.(".subsignupBtn");
+
+        if (nodesubsignupBtn) {
+          nodesubsignupBtn.addEventListener("click", () => {
+            console.log("form");
+            const signupusernameInput = document.querySelector(
+              ".signupusernameInput"
+            ).value;
+            const signupemailInput =
+              document.querySelector(".signupemailInput").value;
+            const signuppasswordInput = document.querySelector(
+              ".signuppasswordInput"
+            ).value;
+            const ersignupPlank = document.querySelector(".ersignupPlank");
+
+            const data = {
+              username: signupusernameInput,
+              email: signupemailInput,
+              password: signuppasswordInput,
+            };
+            console.log(data);
+
+            fetch("/user/registration", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                // 'Authorization': 'Bearer YOUR_TOKEN',
+              },
+              body: JSON.stringify(data),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.erMgs) {
+                  ersignupPlank.innerHTML = data.erMgs;
+                  ersignupPlank.style.display = "block";
+                  setTimeout(() => {
+                    ersignupPlank.style.display = "none";
+                  }, 3000);
+                } else if (data.paswdMgs) {
+                  ersignupPlank.innerHTML = data.paswdMgs;
+                  ersignupPlank.style.display = "block";
+                  setTimeout(() => {
+                    ersignupPlank.style.display = "none";
+                  }, 6000);
+                } else if (data.crtAccount === true) {
+                  console.log("Account created!: " + data.usr, data.usrP);
+                  document.cookie = `usr=${data.usr}` + ";path=/";
+                  document.cookie = `usrP=${data.usrP}` + ";path=/";
+                  if (data.redir === true) {
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 2000);
+                  }
+                }
+              })
+              .catch((error) => console.log(error));
+          });
+        }
+      });
+    });
+  });
+
+  jgobsrvr.observe(document.body, { childList: true, subtree: true });
+}

@@ -11,3 +11,23 @@ body {
   padding: 10px 20px;
   border: 1px solid grey;
 }
+
+.hdrCht {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  padding: 15px 30px;
+  background-color: rgb(32, 31, 31);
+}
+
+.ftrCht {
+  position: fixed;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+}
+
+.mnCht {
+  padding: 40px 0px;
+}

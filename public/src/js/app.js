@@ -15,14 +15,14 @@ socket.addEventListener("open", () => {
   console.log("we are connected");
 });
 
-socket.addEventListener("message", (event) => {
+/* socket.addEventListener("message", (event) => {
   console.log(event.data);
   logId.textContent = event.data;
 });
 //sending data to these server
 function sendmgs() {
   socket.send(inputID.value);
-}
+} */
 
 Home.addEventListener("click", function (event) {
   if (event.target.matches(".loginBtn")) {
@@ -198,17 +198,23 @@ Home.addEventListener("click", function (event) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        usrPnl.innerHTML = "";
-        data.forEach((user) => {
-          const p = document.createElement("div");
-          p.innerHTML = `
+        if (data.erMgs) {
+          console.log(data.erMgs);
+          usrPnl.innerHTML = "";
+          usrPnl.innerHTML = data.erMgs;
+        } else {
+          console.log(data);
+          usrPnl.innerHTML = "";
+          data.forEach((user) => {
+            const p = document.createElement("div");
+            p.innerHTML = `
             <p class="usrcl"  data-prt="${user.userport}">${user.username}</p> 
             `;
 
-          const pCnt = p;
-          usrPnl.appendChild(pCnt);
-        });
+            const pCnt = p;
+            usrPnl.appendChild(pCnt);
+          });
+        }
       })
       .catch((error) => console.log(error));
   }

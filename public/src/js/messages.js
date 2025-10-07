@@ -177,7 +177,10 @@
                         socket.addEventListener("message", (event) => {
                           /* console.log(event.data); */
                           const datadt = JSON.parse(event.data); // Parse the JSON string
-
+                          window.scrollTo({
+                            top: nodemnchtMgs.scrollHeight,
+                            behavior: "smooth",
+                          });
                           if (Array.isArray(datadt)) {
                             nodemnchtMgs.innerHTML = ""; // Clear the panel first
 
@@ -317,7 +320,6 @@
 })();
 
 //Auto connection to websocket
-
 (autoSocket = () => {
   const Home = document.querySelector(".Home");
   const proflrobsrvr = new MutationObserver((mutations) => {
@@ -369,7 +371,11 @@
                       });
                       socket.addEventListener("message", (event) => {
                         const datadt = JSON.parse(event.data);
-
+                        //auto window scroll based on node-main-chat-messages(nodemnchtMgs)
+                        window.scrollTo({
+                          top: nodemnchtMgs.scrollHeight,
+                          behavior: "smooth",
+                        });
                         if (Array.isArray(datadt)) {
                           nodemnchtMgs.innerHTML = "";
 
@@ -409,3 +415,28 @@
 
   proflrobsrvr.observe(Home, { childList: true, subtree: true });
 })();
+
+//Auto scroll down on chats page
+/* const landing_Home = document.querySelector(".Home");
+if (landing_Home) {
+  const scrollobsrvr = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        const nodemscrlnchtMgs = node.matches?.(".mnchtMgs")
+          ? node
+          : node.querySelector?.(".mnchtMgs");
+
+        if (nodemscrlnchtMgs) {
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+          });
+          console.log("scrollllllllllllllllllllllllllllllllllllllllllllllllll");
+          console.log("Scroll height:", document.body.scrollHeight);
+        }
+      });
+    });
+  });
+
+  scrollobsrvr.observe(landing_Home, { childList: true, subtree: true });
+} */

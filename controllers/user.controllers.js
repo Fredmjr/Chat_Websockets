@@ -234,8 +234,14 @@ export const qryusrUrl = async (req, res) => {
             userport: user.dataValues?.userport,
           };
         });
-        console.log(users);
-        return res.send(users);
+        if (Array.isArray(users) && users.length === 0) {
+          return res.json({
+            erMgs: "No user found!",
+          });
+        } else {
+          console.log(users);
+          return res.send(users);
+        }
       }
     } else if (srchVal === "") {
       res.send("empty field");

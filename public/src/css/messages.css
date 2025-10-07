@@ -19,3 +19,24 @@
 .mnchtMgs {
   margin-bottom: 30px;
 }
+
+.extIcon {
+  width: 15;
+  filter: brightness(0) invert(1);
+}
+
+.chatexitBnt {
+  background-color: rgb(88, 87, 87);
+  padding: 6px;
+  border-radius: 20px;
+}
+.hdrCht {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ltBar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}

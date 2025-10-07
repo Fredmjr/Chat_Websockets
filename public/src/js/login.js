@@ -83,7 +83,7 @@ const obsrvrDOM = new MutationObserver((mutations) => {
                     nodeerPlank.textContent = data.erMgs;
                     setTimeout(() => {
                       nodeerPlank.style.display = "none";
-                    }, 1000);
+                    }, 3000);
                     nodeerPlank.style.display = "block";
                     console.log(data.erMgs);
                   } else if (data.paswdMgs) {

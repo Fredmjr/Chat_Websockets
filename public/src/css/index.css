@@ -32,10 +32,3 @@ body {
 .mnCht {
   padding: 40px 0px;
 }
-
-::placeholder {
-  color: rgb(222, 222, 222);
-}
-input {
-  color: white;
-}

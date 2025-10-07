@@ -416,27 +416,24 @@
   proflrobsrvr.observe(Home, { childList: true, subtree: true });
 })();
 
-//Auto scroll down on chats page
-/* const landing_Home = document.querySelector(".Home");
+//Exit chat back to home page
+const landing_Home = document.querySelector(".Home");
 if (landing_Home) {
-  const scrollobsrvr = new MutationObserver((mutations) => {
+  const exitobsrvr = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
       mutation.addedNodes.forEach((node) => {
-        const nodemscrlnchtMgs = node.matches?.(".mnchtMgs")
+        const node_exit = node.matches?.(".chatexitBnt")
           ? node
-          : node.querySelector?.(".mnchtMgs");
+          : node.querySelector?.(".chatexitBnt");
 
-        if (nodemscrlnchtMgs) {
-          window.scrollTo({
-            top: document.body.scrollHeight,
-            behavior: "smooth",
+        if (node_exit) {
+          node_exit.addEventListener("click", () => {
+            window.location.reload();
           });
-          console.log("scrollllllllllllllllllllllllllllllllllllllllllllllllll");
-          console.log("Scroll height:", document.body.scrollHeight);
         }
       });
     });
   });
 
-  scrollobsrvr.observe(landing_Home, { childList: true, subtree: true });
-} */
+  exitobsrvr.observe(landing_Home, { childList: true, subtree: true });
+}

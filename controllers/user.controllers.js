@@ -119,50 +119,61 @@ export const valUrl = async (req, res) => {
           erMgs: "Please enter a valid email address.",
         });
       } else {
-        //Password verification
-        const passwordRegex =
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};:'",.<>/?~`|])[A-Za-z\d!@#$%^&*()_+\-=[\]{};:'",.<>/?~`|]{8,}$/;
-        const passwdVerify = passwordRegex.test(password);
-        const inputRules =
-          "At least one lowercase letter, One uppercase letter, One digit, One special character, No periods! (.),No spaces, length of 8 characters.";
-        /*  "<br>- At least one lowercase letter. <br>- At least one uppercase letter. <br> - At least one digit. <br> - At least one special character.  <br> - No periods! (.) <br>- No spaces  <br> - Minimum length of 8 characters."; */
-        if (passwdVerify) {
-          console.log(email, password);
-          const chkdemail = await userModel.findOne({
-            where: {
-              email: email,
-            },
+        const emlrslt = await userModel.findOne({
+          where: {
+            email: email,
+          },
+        });
+        if (!emlrslt) {
+          return res.json({
+            erMgs: "No user with such credentials, Please signup!",
           });
-          if (chkdemail) {
-            const chkdpwd = await userModel.findOne({
+        } else {
+          //Password verification
+          const passwordRegex =
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};:'",.<>/?~`|])[A-Za-z\d!@#$%^&*()_+\-=[\]{};:'",.<>/?~`|]{8,}$/;
+          const passwdVerify = passwordRegex.test(password);
+          const inputRules =
+            "At least one lowercase letter, One uppercase letter, One digit, One special character, No periods! (.),No spaces, length of 8 characters.";
+          /*  "<br>- At least one lowercase letter. <br>- At least one uppercase letter. <br> - At least one digit. <br> - At least one special character.  <br> - No periods! (.) <br>- No spaces  <br> - Minimum length of 8 characters."; */
+          if (passwdVerify) {
+            console.log(email, password);
+            const chkdemail = await userModel.findOne({
               where: {
                 email: email,
-                password: password,
               },
             });
-
-            if (chkdpwd) {
-              //send token instead here for login then of send email and port in production
-              //here token
-              //here token
-              //here token
-              res.json({
-                ifRedir: true,
-                usr: chkdpwd.username,
-                usrP: chkdpwd.userport,
+            if (chkdemail) {
+              const chkdpwd = await userModel.findOne({
+                where: {
+                  email: email,
+                  password: password,
+                },
               });
 
-              console.log(chkdpwd.password);
-            } else {
-              res.json({
-                erMgs: "Incorrect password!",
-              });
+              if (chkdpwd) {
+                //send token instead here for login then of send email and port in production
+                //here token
+                //here token
+                //here token
+                res.json({
+                  ifRedir: true,
+                  usr: chkdpwd.username,
+                  usrP: chkdpwd.userport,
+                });
+
+                console.log(chkdpwd.password);
+              } else {
+                res.json({
+                  erMgs: "Incorrect password!",
+                });
+              }
             }
+          } else {
+            res.json({
+              paswdMgs: inputRules,
+            });
           }
-        } else {
-          res.json({
-            paswdMgs: inputRules,
-          });
         }
       }
     } else {
@@ -244,7 +255,9 @@ export const qryusrUrl = async (req, res) => {
         }
       }
     } else if (srchVal === "") {
-      res.send("empty field");
+      return res.json({
+        erMgs: "Empty search field!",
+      });
     }
   } catch (error) {
     console.log(error);

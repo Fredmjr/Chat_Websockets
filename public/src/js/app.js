@@ -10,10 +10,10 @@ const srchErmgs = document.querySelector(".srchErmgs");
 const srchpgBtn = document.querySelector(".srchpgBtn");
 const usrcl = document.querySelector(".usrcl");
 
-const socket = new WebSocket("ws://localhost:8000");
+/* const socket = new WebSocket("ws://localhost:8000");
 socket.addEventListener("open", () => {
   console.log("we are connected");
-});
+}); */
 
 /* socket.addEventListener("message", (event) => {
   console.log(event.data);

@@ -169,7 +169,7 @@
                         );
                         //WEBSOCKET WITH MESSAGE PROFILER FUNCTION
                         //localhost,live, mgs & data sent
-                        const socket = new WebSocket("ws://localhost:2001");
+                        const socket = new WebSocket("ws://localhost:8380");
                         socket.addEventListener("open", () => {
                           console.log("Live!!!!");
                           socket.send(JSON.stringify(prtsObj));
@@ -365,7 +365,7 @@
                       };
                       //WEBSOCKET WITH MESSAGE PROFILER FUNCTION
                       //localhost,live, mgs & data sent
-                      const socket = new WebSocket("ws://localhost:2001");
+                      const socket = new WebSocket("ws://localhost:8380");
                       socket.addEventListener("open", () => {
                         socket.send(JSON.stringify(prtsObj));
                       });

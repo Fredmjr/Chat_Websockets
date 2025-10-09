@@ -108,7 +108,7 @@ export const prtsmgsUrl = async (req, res) => {
 //Major updated changes to your original socket code bro
 (function webskt() {
   const server = new WebSocketServer({
-    port: 2001,
+    port: 8380,
   });
   const clients = new Map(); //1. Tracking each conncted users
 

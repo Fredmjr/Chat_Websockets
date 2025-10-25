@@ -19,10 +19,30 @@
       <p>messages</p>
       <img src="/assests/animations/loading.gif" width="50" alt="" />
     </div>
+    <div>
+      <br /><br /><br /><br /><br />
+    </div>
   </div>
 
   <div class="ftrCht">
-    <input type="text" class="inptcl" placeholder="Type message ..." />
-    <button class="chtsbmtBtn">send</button>
+    <div class="ftrchtConts">
+      <div class="mgstxtinptcl">
+        <input type="text" class="inptcl" placeholder="Type message ..." />
+      </div>
+      <div class="mgssndcl">
+        <button id="chtsbmtBtnid">
+          {{! this mgs send class below here will coz issues, delete it if it does and add another way }}
+          <span><img
+              class="chtsbmtBtn"
+              src="/assests/icons/message.png"
+              width="20"
+              alt=""
+              id="sndicnid"
+            /></span>
+        </button>
+      </div>
+
+    </div>
+
   </div>
 </div>

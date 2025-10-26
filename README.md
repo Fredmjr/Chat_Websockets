@@ -1,5 +1,15 @@
 This repo contains a simple chat websocket setup,for single user communications only.
 
+!!!!read this before running app!!!
+
+INSTRUCTIONS
+create a .env file with folowing contents:
+
+- WS_PORT = 8000
+- WS_1PORT = 8101
+- APP_PORT = 8100
+  Make sure all these ports are open and avaliable!
+
 CURRENT FEATURES:
 
 - Userlogin (create, authentications, & profile build).
